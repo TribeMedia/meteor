@@ -21,6 +21,12 @@
 * `sub.ready()` should return true inside that subscription's `onReady`
   callback.  #4614
 
+### Livequery
+
+* Improved server performance by reducing overhead of processing oplog after
+  database writes. Improvements are most noticeable in case when a method is
+  doing a lot of writes on collections with plenty of active observers.  #4694
+
 
 ## in progress: v.1.1.1
 
@@ -196,6 +202,8 @@
   use with tooling such as TestFlight.) #4048
 
 ### Other bug fixes and improvements
+
+* The `spiderable` package now reports the URL it's trying to fetch on failure.
 
 * Upgraded dependencies:
 
