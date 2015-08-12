@@ -1,11 +1,11 @@
-var selftest = require('../selftest.js');
+var selftest = require('../tool-testing/selftest.js');
 var Sandbox = selftest.Sandbox;
-var utils = require('../utils.js');
+var utils = require('../utils/utils.js');
 var net = require('net');
 var Future = require('fibers/future');
 var _ = require('underscore');
-var files = require('../files.js');
-var catalog = require('../catalog.js');
+var files = require('../fs/files.js');
+var catalog = require('../packaging/catalog/catalog.js');
 
 var DEFAULT_RELEASE_TRACK = catalog.DEFAULT_TRACK;
 
@@ -81,16 +81,16 @@ selftest.define("run", function () {
   run.match("restarted");
 
   // Crash just once, then restart successfully
-  s.write("crash.js",
-"var fs = Npm.require('fs')\n" +
-"var path = Npm.require('path')\n" +
-"var crashmark = path.join(process.env.METEOR_TEST_TMP, 'crashed');\n" +
-"try {\n" +
-"  fs.readFileSync(crashmark);\n" +
-"} catch (e) {\n" +
-"  fs.writeFileSync(crashmark);\n" +
-"  process.exit(137);\n" +
-"}\n");
+  s.write("crash.js", `
+var fs = Npm.require('fs');
+var path = Npm.require('path');
+var crashmark = path.join(process.env.METEOR_TEST_TMP, 'crashed');
+try {
+  fs.readFileSync(crashmark);
+} catch (e) {
+  fs.writeFileSync(crashmark);
+  process.exit(137);
+}`);
   run.waitSecs(5);
   run.match("with code: 137");
   run.waitSecs(5);

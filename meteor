@@ -1,6 +1,7 @@
 #!/bin/bash
 
-BUNDLE_VERSION=0.4.41
+# XXX the version 0.5.5 is used on branch cordova-improvements
+BUNDLE_VERSION=0.5.8
 
 # OS Check. Put here because here is where we download the precompiled
 # bundles that are arch specific.
@@ -111,7 +112,7 @@ if [ -d "$SCRIPT_DIR/.git" ] || [ -f "$SCRIPT_DIR/.git" ]; then
 fi
 
 DEV_BUNDLE="$SCRIPT_DIR/dev_bundle"
-METEOR="$SCRIPT_DIR/tools/main-transpile-wrapper.js"
+METEOR="$SCRIPT_DIR/tools/index.js"
 
 
 # Bump our file descriptor ulimit as high as it will go. This is a

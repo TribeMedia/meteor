@@ -1,5 +1,11 @@
-## v.NEXT
+## batch-plugins
 
+Backwards-incompatible change: static assets in package.js files must
+be explicitly declared with `{isAsset: true}`.  See the batch-plugins merge
+message for more details.
+
+
+## v.NEXT
 
 ### Utilities
 
@@ -207,6 +213,7 @@
 
 * Upgraded dependencies:
 
+  - Node: 0.10.40 (from 0.10.36)
   - uglify-js: 2.4.20 (from 2.4.17)
   - http-proxy: 1.11.1 (from 1.6.0)
 
@@ -217,6 +224,14 @@
   coffeescript@1.9.2 and source-map@0.4.2.
 
 * Upgraded `fastclick` to 1.0.6 to fix an issue in iOS Safari. #4393
+
+
+## v1.1.0.3, 2015-Aug-03
+
+### Accounts
+
+* When using Facebook API version 2.4, properly fetch `email` and other fields.
+  Facebook recently forced all new apps to use version 2.4 of their API.  #4743
 
 
 ## v1.1.0.2, 2015-Apr-06

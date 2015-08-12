@@ -1,6 +1,6 @@
 Package.describe({
   summary: "Serves a Meteor app over HTTP",
-  version: '1.2.1'
+  version: '1.2.2-rc.0'
 });
 
 Npm.depends({connect: "2.9.0",
@@ -37,7 +37,7 @@ Package.onUse(function (api) {
 });
 
 Package.onTest(function (api) {
-  api.use(['tinytest', 'webapp', 'http']);
+  api.use(['tinytest', 'webapp', 'http', 'underscore']);
   api.addFiles('webapp_tests.js', 'server');
   api.addFiles('webapp_client_tests.js', 'client');
 });

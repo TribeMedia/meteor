@@ -1,8 +1,8 @@
 /* eslint no-console: 0 */
 
 var _ = require('underscore');
-var files = require('./files.js');
-var Console = require('./console.js').Console;
+var files = require('./fs/files.js');
+var Console = require('./console/console.js').Console;
 
 // This file implements "upgraders" --- functions which upgrade a Meteor app to
 // a new version. Each upgrader has a name (registered in upgradersByName).
@@ -124,6 +124,44 @@ var upgradersByName = {
         "https://github.com/meteor/meteor/wiki/Facebook-Graph-API-Upgrade",
         Console.options({ bulletPoint: "1.0.5: " })
       );
+    }
+  },
+
+  "1.2.0-standard-minifiers-package": function (projectContext) {
+    // Minifiers are extracted into a new package called "standard-minifiers"
+    projectContext.projectConstraintsFile.addConstraints(
+      ['standard-minifiers']);
+    projectContext.projectConstraintsFile.writeIfModified();
+  },
+
+  "1.2.0-meteor-platform-split": function (projectContext) {
+    const packagesFile = projectContext.projectConstraintsFile;
+    // meteor-platform is split into a series of smaller umbrella packages
+    // Only run this upgrader if the app has meteor-platform
+    if (packagesFile.getConstraint('meteor-platform')) {
+      packagesFile.removePackages(['meteor-platform']);
+
+      packagesFile.addConstraints([
+        // These packages replace meteor-platform in newly created apps
+        'meteor-base',
+        'mobile-experience',
+        'mongo',
+        'blaze-html-templates',
+        'session',
+        'jquery',
+        'tracker',
+
+        // These packages are not in newly created apps, but were in
+        // meteor-platform so we need to add them just in case
+        'logging',
+        'reload',
+        'random',
+        'ejson',
+        'spacebars',
+        'check',
+      ].map((pkgName) => {return {package: pkgName}}));
+
+      packagesFile.writeIfModified();
     }
   }
 

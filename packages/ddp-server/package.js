@@ -1,6 +1,7 @@
 Package.describe({
   summary: "Meteor's latency-compensated distributed data server",
-  version: '1.2.0'
+  version: '1.2.1-rc.0',
+  documentation: null
 });
 
 Npm.depends({
@@ -9,13 +10,13 @@ Npm.depends({
 });
 
 Package.onUse(function (api) {
-  api.use(['check', 'random', 'ejson', 'json', 'underscore', 'tracker',
-           'logging', 'retry', 'mongo-id', 'diff-sequence'],
-          ['client', 'server']);
+  api.use(['check', 'random', 'ejson', 'underscore',
+           'retry', 'mongo-id', 'diff-sequence'],
+          'server');
 
   // common functionality
   api.use('ddp-common', 'server'); // heartbeat
-
+  api.use('ddp-rate-limiter', 'server', {weak: true});
   // Transport
   api.use('ddp-client', 'server');
   api.imply('ddp-client');
@@ -36,7 +37,7 @@ Package.onUse(function (api) {
 
   // we depend on LocalCollection._diffObjects, _applyChanges,
   // _idParse, _idStringify.
-  api.use('minimongo', ['client', 'server']);
+  api.use('minimongo', 'server');
 
   api.export('DDPServer', 'server');
 

@@ -1,6 +1,6 @@
-var selftest = require('../selftest.js');
+var selftest = require('../tool-testing/selftest.js');
 var Sandbox = selftest.Sandbox;
-var files = require('../files.js');
+var files = require('../fs/files.js');
 var _ = require('underscore');
 
 // Copy the contents of one file to another.  In these series of tests, we often
@@ -131,7 +131,7 @@ selftest.define("change cordova plugins", ["cordova"], function () {
   run.match("localhost");
 
   // Add a local package contains-cordova-plugin.
-  s.write(".meteor/packages", "meteor-platform \n contains-cordova-plugin");
+  s.write(".meteor/packages", "meteor-base \n contains-cordova-plugin");
   run.waitSecs(2);
   run.match("restarted");
 
@@ -162,7 +162,7 @@ selftest.define("add cordova plugins", ["slow", "cordova"], function () {
   s.cd("myapp");
   s.set("METEOR_OFFLINE_CATALOG", "t");
 
-  run = s.run("remove", "meteor-platform");
+  run = s.run("remove", "meteor-base");
   run.match("removed");
 
   run = s.run("run", "android");
@@ -212,7 +212,7 @@ selftest.define("add cordova plugins", ["slow", "cordova"], function () {
   run = s.run("list-platforms");
   run.match("android");
 
-  run = s.run("build", "../a", "--server", "localhost:3000");
+  run = s.run("build", '../a', "--server", "localhost:3000");
   run.waitSecs(60);
   // This fails because the FB plugin does not compile without additional
   // configuration for android.
@@ -227,7 +227,7 @@ selftest.define("add cordova plugins", ["slow", "cordova"], function () {
   run = s.run("remove", "contains-cordova-plugin");
   run.match("removed");
 
-  run = s.run("build", "../a", "--server", "localhost:3000");
+  run = s.run("build", '../a', "--server", "localhost:3000");
   run.waitSecs(60);
   run.expectExit(0);
 
@@ -237,7 +237,7 @@ selftest.define("add cordova plugins", ["slow", "cordova"], function () {
   run.match("removed");
   run.expectExit(0);
 
-  run = s.run("build", "../a", "--server", "localhost:3000");
+  run = s.run("build", '../a', "--server", "localhost:3000");
   run.waitSecs(60);
   run.expectExit(0);
 
@@ -247,7 +247,7 @@ selftest.define("add cordova plugins", ["slow", "cordova"], function () {
   run.match("added");
   run.expectExit(0);
 
-  run = s.run("build", "../a", "--server", "localhost:3000");
+  run = s.run("build", '../a', "--server", "localhost:3000");
   run.waitSecs(60);
   run.expectExit(0);
   checkCordovaPlugins(s, ["org.apache.cordova.device"]);
@@ -268,7 +268,7 @@ selftest.define("add cordova plugins", ["slow", "cordova"], function () {
   checkUserPlugins(s, ["com.example.plugin"]);
 
   // This should fail beacuse the plugin does not exists at the specified path
-  run = s.run("build", "../a", "--server", "localhost:3000");
+  run = s.run("build", '../a', "--server", "localhost:3000");
   run.waitSecs(30);
   run.expectExit(1);
 
@@ -403,7 +403,7 @@ selftest.define("meteor reinstalls only local cordova plugins on consecutive bui
   run.match("added platform");
 
   var
-    pluginPath          = "../cordova-local-plugin",
+    pluginPath          = '../cordova-local-plugin',
     pluginSource        = "packages/empty-cordova-plugin/plugin",
     androidPluginSource = ".meteor/local/cordova-build/platforms/android/src";
 
@@ -470,13 +470,13 @@ selftest.define("meteor reinstalls only local cordova plugins on consecutive bui
     pluginPath + '/src/android/Empty.java'
   );
 
-  run = s.run("build", "../a", "--server", "localhost:3000");
+  run = s.run("build", '../a', "--server", "localhost:3000");
   run.waitSecs(60);
   run.expectExit(0);
 
   selftest.expectTrue(
     s.read(
-      "../a/android/project/src/com/cordova/empty/Empty.java"
+      '../a/android/project/src/com/cordova/empty/Empty.java'
     ).indexOf('change') === -1
   );
 
@@ -487,13 +487,13 @@ selftest.define("meteor reinstalls only local cordova plugins on consecutive bui
     pluginPath + '/src/android/Empty.java'
   );
 
-  run = s.run("build", "../a", "--server", "localhost:3000");
+  run = s.run("build", '../a', "--server", "localhost:3000");
   run.waitSecs(60);
   run.expectExit(0);
 
   selftest.expectTrue(
     s.read(
-      "../a/android/project/src/com/cordova/empty/Empty.java"
+      '../a/android/project/src/com/cordova/empty/Empty.java'
     ).indexOf('change') > -1
   );
 });
@@ -622,11 +622,11 @@ selftest.define("meteor exits when cordova plugins change", ["slow", "cordova"],
 
 var buildAndCheckPluginInStar = selftest.markStack(function (s, name, version) {
   var run = s.run(
-    "build", "../a", "--server", "localhost:3000", "--directory");
+    "build", '../a', "--server", "localhost:3000", "--directory");
   run.waitSecs(90);
   run.expectExit(0);
 
-  var starJson = JSON.parse(s.read("../a/bundle/star.json"));
+  var starJson = JSON.parse(s.read('../a/bundle/star.json'));
   var program = _.findWhere(starJson.programs, { name: "web.cordova" });
   if (! program) {
     selftest.fail("No cordova program in star.json?");

@@ -555,7 +555,7 @@ Meteor's live page update technology. Just write your template as you normally
 would, and Meteor will take care of making it update in realtime.
 
 Meteor ships with a templating language called
-[Spacebars](https://github.com/meteor/meteor/blob/devel/packages/spacebars/README.md),
+[Spacebars](https://github.com/meteor/meteor/blob/master/packages/spacebars/README.md),
 inspired by [Handlebars](http://handlebarsjs.com/).  It shares some of the
 spirit and syntax of Handlebars, but it has been tailored to produce reactive
 Meteor templates when compiled.
@@ -705,7 +705,7 @@ Template.playerScore.events({
 ```
 
 For more details about Spacebars, read [the Spacebars
-README](https://github.com/meteor/meteor/blob/devel/packages/spacebars/README.md).
+README](https://github.com/meteor/meteor/blob/master/packages/spacebars/README.md).
 
 {{/markdown}}
 </template>
@@ -735,11 +735,13 @@ Additionally, [`meteor list`](#meteorlist) will tell you what
 packages your project is using, and [`meteor update`](#meteorupdate)
 will update them to the newest versions when possible.
 
-By default all apps include the `meteor-platform` package. This
-automatically pulls in the packages that make up the core Meteor
-stack. If you want to build your own custom stack, just remove
-`meteor-platform` from your app and add back in whichever of the standard
-packages you want to keep.
+By default all apps include the `meteor-base` package. This pulls in the
+packages that make up the core of the Meteor stack. Most apps will have this
+package.
+
+All new apps also start with a set of packages that allow a friendly development
+experience. For more information about these packages, check out the comments in
+the [packages file](https://github.com/meteor/meteor/blob/master/tools/skel/.meteor/packages).
 
 Meteor uses a single-loading packaging system, meaning that it loads just one
 version of every package. Before adding or upgrading to a particular version of
@@ -906,7 +908,7 @@ meteor build my_directory
 This command will generate a fully-contained Node.js application in the form of
 a tarball.  To run this application, you need to provide Node.js 0.10 and a
 MongoDB server.  (The current release of Meteor has been tested with Node
-0.10.36.) You can then run the application by invoking node, specifying the
+0.10.40.) You can then run the application by invoking node, specifying the
 HTTP port for the application to listen on, and the MongoDB endpoint.
 
 ```bash

@@ -1,6 +1,7 @@
 Package.describe({
   summary: "JS simulation of MongoDB ObjectIDs",
-  version: '1.0.0'
+  version: '1.0.1-rc.0',
+  documentation: null
 });
 
 Package.onUse(function (api) {
@@ -10,4 +11,3 @@ Package.onUse(function (api) {
     'id.js'
   ]);
 });
-

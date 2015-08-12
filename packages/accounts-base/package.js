@@ -1,10 +1,11 @@
 Package.describe({
   summary: "A user account system",
-  version: "1.2.0"
+  version: "1.2.1-rc.0"
 });
 
 Package.onUse(function (api) {
   api.use('underscore', ['client', 'server']);
+  api.use('ddp-rate-limiter');
   api.use('localstorage', 'client');
   api.use('tracker', 'client');
   api.use('check', 'server');
@@ -40,6 +41,8 @@ Package.onUse(function (api) {
 
   api.addFiles('accounts_common.js', ['client', 'server']);
   api.addFiles('accounts_server.js', 'server');
+
+  api.addFiles('accounts_rate_limit.js');
   api.addFiles('url_server.js', 'server');
 
   // accounts_client must be before localstorage_token, because
@@ -58,11 +61,16 @@ Package.onUse(function (api) {
 });
 
 Package.onTest(function (api) {
-  api.use('accounts-base');
-  api.use('tinytest');
-  api.use('random');
-  api.use('test-helpers');
-  api.use('oauth-encryption');
+  api.use([
+    'accounts-base',
+    'tinytest',
+    'random',
+    'test-helpers',
+    'oauth-encryption',
+    'underscore',
+    'ddp'
+  ]);
+
   api.addFiles('accounts_tests.js', 'server');
   api.addFiles("accounts_url_tests.js", "client");
 });
